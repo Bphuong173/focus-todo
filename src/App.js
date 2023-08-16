@@ -5,12 +5,12 @@ import Todolist from "./components/todolist";
 // import UUID V4 để sử dụng từ UUID
 import {v4} from "uuid"
 function App() {
-  
   // sử dụng react hook useState để lấy value đã lưu trong todoList và set giá trị mới cho nó
   const [todoList, setTodolist] = useState([])
   // sử dụng react hook useState đê lấy value người dùng nhập từ thẻ input
   const [textInput, setTextInput] = useState("")
   // sử dụng useEffect để render dữ liệu trên DOM
+  //get method
   useEffect(() => {
     const url = "https://jsonplaceholder.typicode.com/users"
    fetch(url)
@@ -25,6 +25,17 @@ function App() {
     setTextInput(e.target.value)
   }
   const AddBtnClick = () => {
+    fetch("https://jsonplaceholder.typicode.com/users", {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name: textInput,
+        id: v4()
+      })
+  })
+.then(response => response.json())
     setTodolist([ {id : v4(), name : textInput}, ...todoList])
     setTextInput("")
   }
